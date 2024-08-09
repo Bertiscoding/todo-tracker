@@ -1,7 +1,11 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import React, { FC, ReactElement } from "react";
+interface IProfile {
+  name: string;
+}
 
-const Profile: FC = (): ReactElement => {
+const Profile: FC<IProfile> = (props): ReactElement => {
+  const { name } = props;
   return (
     <Box
       display="flex"
@@ -15,9 +19,9 @@ const Profile: FC = (): ReactElement => {
         backgroundColor: "primary.main",
         marginBottom: "16px"
       }}>
-        <Typography variant="h4" color="text.primary">H</Typography>
+        <Typography variant="h4" color="text.primary">{`${name.substring(0,1)}`}</Typography>
       </Avatar>
-      <Typography variant="h6" color="text.primary">Welcome, Helene</Typography>
+      <Typography variant="h6" color="text.primary">{`Welcome, ${name}`}</Typography>
       <Typography variant="body1" color="text.primary">This is your task manager</Typography>
     </Box>
   )
