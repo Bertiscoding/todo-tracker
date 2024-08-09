@@ -6,13 +6,9 @@ import TaskDateField from "./_taskDateField";
 import TaskSelectField from "./_taskSelectField";
 import { Status } from "./enums/Status";
 import { Priority } from "./enums/Priority";
+import { capitalizeString, capitalizeStringAndSplit } from "../taskCounter/helpers/capitalizeString";
 
 const CreateTaskForm: FC = (): ReactElement => {
-
-  const capitalizeString = (text: string): string => {
-    if (!text) return "";
-    return text[0].toUpperCase() + text.slice(1);
-  };
 
   return (
    <Box
@@ -36,11 +32,11 @@ const CreateTaskForm: FC = (): ReactElement => {
           items={[
             {
               value: Status.todo,
-              label: capitalizeString(Status.todo)
+              label: capitalizeStringAndSplit(Status.todo)
             },
             {
               value: Status.inProgress,
-              label: ((capitalizeString(Status.inProgress)).split(/(?<![A-Z])(?=[A-Z])/).join(" "))
+              label: capitalizeStringAndSplit(Status.inProgress)
             },
             {
               value: Status.completed,
