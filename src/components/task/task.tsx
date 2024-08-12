@@ -1,14 +1,28 @@
 import React, { FC, ReactElement } from 'react';
 import { Box } from '@mui/material';
+import { ITask } from './interfaces/ITask';
 import TaskHeader from './_taskHeader';
 import TaskDescription from './_taskDescription';
 import TaskFooter from './_taskFooter';
+import { Status } from '../createTaskForm/enums/Status';
+import { Priority } from '../createTaskForm/enums/Priority';
+import { renderPriorityBorderColor } from './helpers/renderPriorityBorderColor';
 
-const Task: FC = (): ReactElement => {
+const Task: FC<ITask> = (props): ReactElement => {
+  const { 
+    title="Task Title",
+    date=new Date(),
+    description="Lorem ipsum dolor sit, amet consectetur adipisicing elit.",
+    priority=Priority.low,
+    status=Status.completed,
+    onStatusChange=(e) => console.log(e),
+    onClick=(e) => console.log(e),
+   } = props;
+
   return (
     <Box
-      width="100%"
       display="flex"
+      width="100%"
       justifyContent="flex-start"
       flexDirection="column"
       mb={4}
@@ -18,12 +32,13 @@ const Task: FC = (): ReactElement => {
         backgroundColor: "background.paper",
         borderRadius: "8px",
         border: "1px solid",
-        borderColor: "error.light"
+        borderColor: renderPriorityBorderColor(priority),
+        status: status 
       }}
     >
-      <TaskHeader />
-      <TaskDescription />
-      <TaskFooter />
+      <TaskHeader title={title} date={date} />
+      <TaskDescription description={description} />
+      <TaskFooter onClick={onClick} onStatusChange={onStatusChange} />
     </Box>
   );
 };

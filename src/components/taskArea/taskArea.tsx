@@ -13,13 +13,14 @@ const TaskArea: FC = (): ReactElement => {
       </Box>
       <Grid
         container
+        width="100%"
         display="flex"
         flexDirection="column"
-        justifyContent="center"
-        width="100%"
+        alignItems="center"
       >
         <Grid
           item
+          width="100%"
           display="flex"
           flexDirection="row"
           justifyContent="space-around"
@@ -32,20 +33,25 @@ const TaskArea: FC = (): ReactElement => {
           <TaskCounter status={Status.inProgress} />
           <TaskCounter status={Status.completed} />
         </Grid>
-        <Grid
-          item
+        <Box
+          width="100%"
           display="flex"
-          flexDirection="column"
-          alignItems="center"
-          md={8}
-          xs={10}
+          justifyContent="center"
         >
-          <Box>
+          <Grid
+            item
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            md={8}
+            xs={10}
+          >
             <Task />
             <Task />
             <Task />
-          </Box>
-        </Grid>
+          </Grid>
+        </Box>
       </Grid>
     </Grid>
   )
