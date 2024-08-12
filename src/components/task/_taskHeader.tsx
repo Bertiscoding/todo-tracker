@@ -14,7 +14,7 @@ const TaskHeader: FC<ITaskHeader> = (props): ReactElement => {
       display="flex"
       justifyContent="space-between"
       width="100%"
-      mb={4}
+      mb={3}
     >
       <Box>
         <Typography variant="h6">{title}</Typography>

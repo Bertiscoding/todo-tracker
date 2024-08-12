@@ -1,6 +1,8 @@
 import React, { FC, ReactElement } from 'react';
 import { Box } from '@mui/material';
 import TaskHeader from './_taskHeader';
+import TaskDescription from './_taskDescription';
+import TaskFooter from './_taskFooter';
 
 const Task: FC = (): ReactElement => {
   return (
@@ -9,7 +11,7 @@ const Task: FC = (): ReactElement => {
       display="flex"
       justifyContent="flex-start"
       flexDirection="column"
-      mb={2}
+      mb={4}
       p={2}
       sx={{
         width: "100%",
@@ -20,6 +22,8 @@ const Task: FC = (): ReactElement => {
       }}
     >
       <TaskHeader />
+      <TaskDescription />
+      <TaskFooter />
     </Box>
   );
 };

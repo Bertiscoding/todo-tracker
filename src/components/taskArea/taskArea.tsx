@@ -16,6 +16,7 @@ const TaskArea: FC = (): ReactElement => {
         display="flex"
         flexDirection="column"
         justifyContent="center"
+        width="100%"
       >
         <Grid
           item
@@ -35,6 +36,7 @@ const TaskArea: FC = (): ReactElement => {
           item
           display="flex"
           flexDirection="column"
+          alignItems="center"
           md={8}
           xs={10}
         >
