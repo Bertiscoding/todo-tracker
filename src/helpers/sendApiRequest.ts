@@ -9,7 +9,7 @@ function returnCorrectRequest(
     return {
       method: method,
       headers: {
-        "Content_Type": "application/json",
+        "Content-Type": "application/json",
       }
     }
   };
@@ -18,7 +18,7 @@ function returnCorrectRequest(
     method: method,
     body: JSON.stringify(data),
     headers: {
-      "Content_Type": "application/json",
+      "Content-Type": "application/json",
     },
   }
 };
