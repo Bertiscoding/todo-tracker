@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Grid, Box, Alert, AlertTitle, LinearProgress } from "@mui/material"
 import { format } from "date-fns";
 import { sendApiRequest } from "../../helpers/sendApiRequest";
@@ -7,6 +7,7 @@ import { ITaskApi } from "./interfaces/ITaskApi";
 import Task from "../task/task";
 import TaskCounter from "../taskCounter/taskCounter";
 import { Status } from "../createTaskForm/enums/Status";
+import { IUpdateTask } from "../createTaskForm/interfaces/IUpdateTask";
 
 const TaskArea: FC = (): ReactElement => {
 
@@ -20,6 +21,34 @@ const TaskArea: FC = (): ReactElement => {
     return GETquery;
     }
   });
+
+  const updateTaskMutation = useMutation({
+    mutationFn: (data: IUpdateTask) => sendApiRequest(
+      `${process.env.REACT_APP_API_URL}/tasks`,
+      "PUT",
+      data
+    )
+  });
+
+  const onStatusChangeHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => {
+    updateTaskMutation.mutate({
+      id,
+      status: e.target.checked ? Status.inProgress : Status.todo
+    })
+  }
+
+  const markCompletedHandler = (
+    e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLAnchorElement>,
+    id: string,
+  ) => {
+    updateTaskMutation.mutate({
+      id,
+      status: Status.completed
+    })
+  }
 
   return (
     <Grid item md={8} px={4}>
@@ -85,6 +114,8 @@ const TaskArea: FC = (): ReactElement => {
                       date={new Date(el.date)}
                       status={el.status}
                       priority={el.priority}
+                      onClick={markCompletedHandler}
+                      onStatusChange={onStatusChangeHandler}
                       />
                     ) : (false);
                 })
