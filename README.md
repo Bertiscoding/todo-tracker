@@ -7,10 +7,11 @@
 
 ### Backend:
 - node.js
-- MySQL
+- Express.js
 - TypeORM
+- MySQL
 
-#### To-do API: [https://github.com/Bertiscoding/todo-api](https://github.com/Bertiscoding/todo-api)
+#### To-do API and Server: [https://github.com/Bertiscoding/todo-api](https://github.com/Bertiscoding/todo-api)
 
 ### API Integration:
 - Context API
