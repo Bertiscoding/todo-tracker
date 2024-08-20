@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from "react"
+import React, { FC, ReactElement, useState, useEffect } from "react"
 import { useMutation } from "@tanstack/react-query";
 import {
   Box,
@@ -25,6 +25,7 @@ const CreateTaskForm: FC = (): ReactElement => {
   const [date, setDate] = useState<Date | null>(new Date());
   const [status, setStatus] = useState<string>(Status.todo);
   const [priority, setPriority] = useState<string>(Priority.normal);
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
   
   const createTaskMutation = useMutation({
     mutationFn: (data: ICreateTask) => sendApiRequest(
@@ -47,6 +48,17 @@ const CreateTaskForm: FC = (): ReactElement => {
     createTaskMutation.mutate(task);
   };
 
+  useEffect(() => {
+    if (createTaskMutation.isSuccess) {
+      setShowSuccess(true);
+    }
+    const alertTimeout = setTimeout(() => {
+      setShowSuccess(false);
+    }, 7000)
+
+    return () => { clearTimeout(alertTimeout) };
+  }, [createTaskMutation.isSuccess])
+
   return (
    <Box
       display="flex"
@@ -56,23 +68,30 @@ const CreateTaskForm: FC = (): ReactElement => {
       px={4}
       my={6}
     >
-    <Alert severity="success" sx={{ width: "100%", marginBottom: "16px" }}>
-      <AlertTitle>Success</AlertTitle>
-        The task has been created succesfully!
-    </Alert>
-    <Typography variant="h6" component="h2" mb={2}>Create A Task</Typography>
-    <Stack sx={{width: "100%"}} spacing={2}>
+      {showSuccess && (
+        <Alert severity="success" sx={{ width: "100%", marginBottom: "16px" }}>
+          <AlertTitle>Success</AlertTitle>
+            The task has been created succesfully!
+        </Alert>
+      )}
+
+      <Typography variant="h6" component="h2" mb={2}>Create A Task</Typography>
+
+      <Stack sx={{width: "100%"}} spacing={2}>
 
       <TaskTitleField
+        disabled={createTaskMutation.isPending}
         onChange={(e) => {setTitle(e.target.value)}}
       />
 
       <TaskDescriptionField
+        disabled={createTaskMutation.isPending}
         onChange={(e) => {setDescription(e.target.value)}}
       />
 
       <TaskDateField
         value={date}
+        disabled={createTaskMutation.isPending}
         onChange={(date) => {setDate(date)}}
       />
 
@@ -81,6 +100,7 @@ const CreateTaskForm: FC = (): ReactElement => {
           label="Status"
           name="status"
           value={status}
+          disabled={createTaskMutation.isPending}
           onChange={(e) => {setStatus(e.target.value)}}
           items={[
             {
@@ -101,6 +121,7 @@ const CreateTaskForm: FC = (): ReactElement => {
           label="Priority"
           name="priority"
           value={priority}
+          disabled={createTaskMutation.isPending}
           onChange={(e) => setPriority(e.target.value)}
           items={[
             {
@@ -118,8 +139,11 @@ const CreateTaskForm: FC = (): ReactElement => {
           ]}
         />
       </Stack>
-      <LinearProgress />
+      { createTaskMutation.isPending && (
+          <LinearProgress />
+      )}
       <Button
+        disabled={!title || !description || !date || !status || !priority}
         variant="contained"
         size="large"
         fullWidth
